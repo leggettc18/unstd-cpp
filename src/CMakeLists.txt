@@ -1,0 +1,15 @@
+set(HEADER_FILES
+    "${UnStdLibrary_SOURCE_DIR}/include/unstd/Array.hpp"
+    )
+
+add_library(unstd_library INTERFACE ${HEADER_FILES})
+
+target_include_directories(unstd_library INTERFACE ../include)
+
+target_compile_features(unstd_library INTERFACE cxx_std_11)
+
+source_group(
+    TREE "${PROJECT_SOURCE_DIR}/include"
+    PREFIX "Header Files"
+    FILES ${HEADER_FILES}
+    )
