@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <utility>
 namespace unstd {
 template<typename T>
 class Vector {
@@ -19,6 +20,18 @@ public:
             }
         }
         mData[mSize] = value;
+        mSize++;
+    }
+
+    void PushBack(T&& value) {
+        if (mSize >= mCapacity) {
+            if (mCapacity == 0) {
+                realloc(2);
+            } else {
+                realloc(mCapacity + (mCapacity / 2));
+            }
+        }
+        mData[mSize] = std::move(value);
         mSize++;
     }
 
@@ -51,7 +64,7 @@ private:
         }
 
         for (size_t i = 0; i < mSize; i++) {
-            newBlock[i] = mData[i];
+            newBlock[i] = std::move(mData[i]);
         }
         delete[] mData;
         mData = newBlock;

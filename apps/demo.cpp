@@ -3,6 +3,38 @@
 #include <unstd/Array.hpp>
 #include <unstd/Vector.hpp>
 
+struct AllocTest {
+private:
+    int placeholder = 0;
+public:
+    AllocTest() {}
+    AllocTest(int i) : placeholder(i) {}
+
+    AllocTest(const AllocTest& t) : placeholder(t.placeholder) {
+        std::cout << "AllocTest Copied" << std::endl;
+    }
+
+    AllocTest(AllocTest&& t) : placeholder(std::move(t.placeholder)) {
+        std::cout << "AllocTest Moved" << std::endl;
+    }
+
+    ~AllocTest() {
+        std::cout << "AllocTest Destroyed" << std::endl;
+    }
+
+    AllocTest& operator=(const AllocTest& t) {
+        std::cout << "AllocTest Copied" << std::endl;
+        placeholder = t.placeholder;
+        return *this;
+    }
+
+    AllocTest& operator=(AllocTest&& t) {
+        std::cout << "AllocTest Moved" << std::endl;
+        placeholder = std::move(t.placeholder);
+        return *this;
+    }
+};
+
 int main(int argc, const char* argv[]) {
     std::cout << "Array..." << std::endl;
     unstd::Array<int, 5> data;
@@ -39,6 +71,17 @@ int main(int argc, const char* argv[]) {
     vector.PushBack("Vectors");
     std::cout << "vector size: " << vector.Size() << std::endl;
     std::cout << "vector capacity: " << vector.Capacity() << std::endl;
+
+    std::cout << "Vectors Copy Semantics..." << std::endl;
+    unstd::Vector<AllocTest> allocVector;
+    AllocTest tester = AllocTest();
+    allocVector.PushBack(tester);
+    allocVector.PushBack(tester);
+    allocVector.PushBack(tester);
+    std::cout << "Vectors Move Semantics..." << std::endl;
+    allocVector.PushBack(AllocTest(1));
+    allocVector.PushBack(AllocTest(2));
+    allocVector.PushBack(AllocTest(3));
     
     std::cin.get();
     
