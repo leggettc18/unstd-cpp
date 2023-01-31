@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <unstd/Array.hpp>
+#include <unstd/Vector.hpp>
 
 int main(int argc, const char* argv[]) {
     std::cout << "Array..." << std::endl;
@@ -18,6 +19,13 @@ int main(int argc, const char* argv[]) {
     for (auto& value : data) {
         std::cout << value << std::endl;
     }
+
+    std::cout << "Vectors..." << std::endl;
+    unstd::Vector<std::string> vector = unstd::Vector<std::string>(5);
+    vector.PushBack("Testing");
+    vector.PushBack("Unstandard Library");
+    vector.PushBack("Vectors");
+    std::cout << "vector size: " << vector.Size() << std::endl;
     
     std::cin.get();
     

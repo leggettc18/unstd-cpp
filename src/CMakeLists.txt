@@ -1,5 +1,6 @@
 set(HEADER_FILES
     "${UnStdLibrary_SOURCE_DIR}/include/unstd/Array.hpp"
+    "${UnStdLibrary_SOURCE_DIR}/include/unstd/Vector.hpp"
     )
 
 add_library(unstd_library INTERFACE ${HEADER_FILES})
