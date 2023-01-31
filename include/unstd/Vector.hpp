@@ -6,7 +6,7 @@ template<typename T>
 class Vector {
 public:
     Vector() {}
-    Vector(size_t initialSize) {
+    Vector(size_t initialSize): mCapacity(initialSize) {
         realloc(initialSize);
     }
 
@@ -24,6 +24,10 @@ public:
 
     size_t Size() {
         return mSize;
+    }
+
+    size_t Capacity() {
+        return mCapacity;
     }
 
     const T& operator[](size_t index) const {

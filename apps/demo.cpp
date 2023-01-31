@@ -26,6 +26,19 @@ int main(int argc, const char* argv[]) {
     vector.PushBack("Unstandard Library");
     vector.PushBack("Vectors");
     std::cout << "vector size: " << vector.Size() << std::endl;
+    std::cout << "vector capacity: " << vector.Capacity() << std::endl;
+    
+    vector.PushBack("Testing");
+    vector.PushBack("Unstandard Library");
+    vector.PushBack("Vectors");
+    std::cout << "vector size: " << vector.Size() << std::endl;
+    std::cout << "vector capacity: " << vector.Capacity() << std::endl;
+
+    vector.PushBack("Testing");
+    vector.PushBack("Unstandard Library");
+    vector.PushBack("Vectors");
+    std::cout << "vector size: " << vector.Size() << std::endl;
+    std::cout << "vector capacity: " << vector.Capacity() << std::endl;
     
     std::cin.get();
     
