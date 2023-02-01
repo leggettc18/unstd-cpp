@@ -53,10 +53,14 @@ int main(int argc, const char* argv[]) {
     }
 
     std::cout << "Vectors..." << std::endl;
-    unstd::Vector<std::string> vector = unstd::Vector<std::string>(5);
+    unstd::Vector<std::string> vector(5);
+    std::cout << "vector size: " << vector.Size() << std::endl;
+    std::cout << "vector capacity: " << vector.Capacity() << std::endl;
+    std::cout << "Vector Created, Pushing Items..." << std::endl;
     vector.PushBack("Testing");
     vector.PushBack("Unstandard Library");
     vector.PushBack("Vectors");
+    std::cout << "Checking Vector Size and Capacity..." << std::endl;
     std::cout << "vector size: " << vector.Size() << std::endl;
     std::cout << "vector capacity: " << vector.Capacity() << std::endl;
     
@@ -82,6 +86,22 @@ int main(int argc, const char* argv[]) {
     allocVector.PushBack(AllocTest(1));
     allocVector.PushBack(AllocTest(2));
     allocVector.PushBack(AllocTest(3));
+
+    std::cout << "Vector Emplace..." << std::endl;
+    unstd::Vector<AllocTest> emplaceVector;
+    emplaceVector.EmplaceBack(1);
+    emplaceVector.EmplaceBack(2);
+    emplaceVector.EmplaceBack(3);
+
+    std::cout << "Vector PopBack..." << std::endl;
+    allocVector.PopBack();
+    allocVector.PopBack();
+    emplaceVector.PopBack();
+
+    std::cout << "Clearing Vectors..." << std::endl;
+    vector.Clear();
+    allocVector.Clear();
+    emplaceVector.Clear();
     
     std::cin.get();
     

@@ -11,7 +11,12 @@ public:
         realloc(initialSize);
     }
 
-    void PushBack(const T& value) {
+    ~Vector() {
+        Clear();
+        ::operator delete(mData, mCapacity * sizeof(T));
+    }
+
+    constexpr void PushBack(const T& value) {
         if (mSize >= mCapacity) {
             if (mCapacity == 0) {
                 realloc(2);
@@ -23,16 +28,33 @@ public:
         mSize++;
     }
 
-    void PushBack(T&& value) {
+    constexpr void PushBack(T&& value) {
+        EmplaceBack(std::move(value));
+    }
+
+    template<typename... Args>
+    T& EmplaceBack(Args&&... args) {
         if (mSize >= mCapacity) {
-            if (mCapacity == 0) {
-                realloc(2);
-            } else {
-                realloc(mCapacity + (mCapacity / 2));
-            }
+            realloc(2);
+        } else {
+            realloc(mCapacity + (mCapacity / 2));
         }
-        mData[mSize] = std::move(value);
-        mSize++;
+        new(&mData[mSize]) T(std::forward<Args>(args)...);
+        return mData[mSize++];
+    }
+
+    void PopBack() {
+        if (mSize > 0) {
+            mSize--;
+            mData[mSize].~T();
+        }
+    }
+
+    void Clear() {
+        for (size_t i = 0; i < mSize; i++) {
+            mData[i].~T();
+        }
+        mSize = 0;
     }
 
     size_t Size() {
@@ -57,16 +79,23 @@ private:
     size_t mCapacity = 0;
 
     void realloc(size_t capacity) {
-        T* newBlock = new T[capacity];
+        T* newBlock = (T*)::operator new(capacity * sizeof(T));
 
+        size_t oldSize = mSize;
         if (capacity < mSize) {
             mSize = capacity;
         }
 
-        for (size_t i = 0; i < mSize; i++) {
-            newBlock[i] = std::move(mData[i]);
+        if (mData != nullptr) {
+            for (size_t i = 0; i < oldSize; i++) {
+                new(&newBlock[i]) T(std::move(mData[i]));
+            }
+
+            for (size_t i = 0; i < oldSize; i++) {
+                mData[i].~T();
+            }
         }
-        delete[] mData;
+        ::operator delete(mData, mCapacity * sizeof(T));
         mData = newBlock;
         mCapacity = capacity;
     }
