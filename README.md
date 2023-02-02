@@ -9,3 +9,8 @@ for production use.
 - Array (Templated)
     - Stack allocated
     - Iterators
+- Vector (Templated)
+    - Iterators
+    - Copy and Move Semantics
+    - No heap allocation for underlying array until either data is added or if an initial capacity is provided to the constructor.
+
