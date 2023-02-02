@@ -4,17 +4,20 @@
 #include <unstd/Vector.hpp>
 
 struct AllocTest {
-private:
-    int placeholder = 0;
-public:
-    AllocTest() {}
-    AllocTest(int i) : placeholder(i) {}
+  private:
+    int mPlaceholder = 0;
 
-    AllocTest(const AllocTest& t) : placeholder(t.placeholder) {
+  public:
+    AllocTest() {
+    }
+    AllocTest(int i) : mPlaceholder(i) {
+    }
+
+    AllocTest(const AllocTest& t) : mPlaceholder(t.mPlaceholder) {
         std::cout << "AllocTest Copied" << std::endl;
     }
 
-    AllocTest(AllocTest&& t) : placeholder(std::move(t.placeholder)) {
+    AllocTest(AllocTest&& t) : mPlaceholder(std::move(t.mPlaceholder)) {
         std::cout << "AllocTest Moved" << std::endl;
     }
 
@@ -24,20 +27,20 @@ public:
 
     AllocTest& operator=(const AllocTest& t) {
         std::cout << "AllocTest Copied" << std::endl;
-        placeholder = t.placeholder;
+        mPlaceholder = t.mPlaceholder;
         return *this;
     }
 
     AllocTest& operator=(AllocTest&& t) {
         std::cout << "AllocTest Moved" << std::endl;
-        placeholder = std::move(t.placeholder);
+        mPlaceholder = std::move(t.mPlaceholder);
         return *this;
     }
 };
 
 int main(int argc, const char* argv[]) {
     std::cout << "Array..." << std::endl;
-    unstd::Array<int, 5> data;
+    Unstd::Array<int, 5> data;
     data[0] = 0;
     data[1] = 1;
     data[2] = 2;
@@ -53,7 +56,7 @@ int main(int argc, const char* argv[]) {
     }
 
     std::cout << "Vectors..." << std::endl;
-    unstd::Vector<std::string> vector(5);
+    Unstd::Vector<std::string> vector(5);
     std::cout << "vector size: " << vector.Size() << std::endl;
     std::cout << "vector capacity: " << vector.Capacity() << std::endl;
     std::cout << "Vector Created, Pushing Items..." << std::endl;
@@ -63,7 +66,7 @@ int main(int argc, const char* argv[]) {
     std::cout << "Checking Vector Size and Capacity..." << std::endl;
     std::cout << "vector size: " << vector.Size() << std::endl;
     std::cout << "vector capacity: " << vector.Capacity() << std::endl;
-    
+
     vector.PushBack("Testing");
     vector.PushBack("Unstandard Library");
     vector.PushBack("Vectors");
@@ -77,7 +80,7 @@ int main(int argc, const char* argv[]) {
     std::cout << "vector capacity: " << vector.Capacity() << std::endl;
 
     std::cout << "Vectors Copy Semantics..." << std::endl;
-    unstd::Vector<AllocTest> allocVector;
+    Unstd::Vector<AllocTest> allocVector;
     AllocTest tester = AllocTest();
     allocVector.PushBack(tester);
     allocVector.PushBack(tester);
@@ -88,7 +91,7 @@ int main(int argc, const char* argv[]) {
     allocVector.PushBack(AllocTest(3));
 
     std::cout << "Vector Emplace..." << std::endl;
-    unstd::Vector<AllocTest> emplaceVector;
+    Unstd::Vector<AllocTest> emplaceVector;
     emplaceVector.EmplaceBack(1);
     emplaceVector.EmplaceBack(2);
     emplaceVector.EmplaceBack(3);
@@ -99,7 +102,7 @@ int main(int argc, const char* argv[]) {
     emplaceVector.PopBack();
 
     std::cout << "Vector Iterators: Range Based For Loop..." << std::endl;
-    for (auto& value: vector) {
+    for (auto& value : vector) {
         std::cout << value << std::endl;
     }
 
@@ -107,7 +110,6 @@ int main(int argc, const char* argv[]) {
     vector.Clear();
     allocVector.Clear();
     emplaceVector.Clear();
-    
+
     std::cin.get();
-    
 }
