@@ -98,6 +98,11 @@ int main(int argc, const char* argv[]) {
     allocVector.PopBack();
     emplaceVector.PopBack();
 
+    std::cout << "Vector Iterators: Range Based For Loop..." << std::endl;
+    for (auto& value: vector) {
+        std::cout << value << std::endl;
+    }
+
     std::cout << "Clearing Vectors..." << std::endl;
     vector.Clear();
     allocVector.Clear();

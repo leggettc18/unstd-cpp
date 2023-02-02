@@ -23,7 +23,7 @@ public:
         reference operator*() const { return *mPtr; }
         pointer operator->() { return mPtr; }
         Iterator& operator++() { mPtr++; return *this; }
-        Iterator operator++(T) { Iterator tmp = *this; ++(*this); return tmp; }
+        Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
         friend bool operator== (const Iterator& a, const Iterator& b) { return a.mPtr == b.mPtr; };
         friend bool operator != (const Iterator& a, const Iterator& b) { return a.mPtr != b.mPtr; };
 
