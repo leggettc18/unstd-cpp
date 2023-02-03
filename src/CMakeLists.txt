@@ -7,7 +7,7 @@ add_library(unstd_library INTERFACE ${HEADER_FILES})
 
 target_include_directories(unstd_library INTERFACE ../include)
 
-target_compile_features(unstd_library INTERFACE cxx_std_11)
+target_compile_features(unstd_library INTERFACE cxx_std_20)
 
 source_group(
     TREE "${PROJECT_SOURCE_DIR}/include"

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bits/iterator_concepts.h>
 #include <stddef.h>
 #include <utility>
 #include <iterator>
@@ -75,28 +76,88 @@ template <typename T> class Vector {
     }
 
     struct Iterator {
-        using iterator_category = std::forward_iterator_tag;
+        using iterator_category = std::contiguous_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = T;
         using pointer = T*;
         using reference = T&;
+
+        Iterator() : mPtr(nullptr) {
+        }
+
         Iterator(pointer ptr) : mPtr(ptr) {
         }
+
         reference operator*() const {
             return *mPtr;
         }
-        pointer operator->() {
+
+        pointer operator->() const {
             return mPtr;
         }
+
+        reference operator[](difference_type index) const {
+            return *(this + index);
+        }
+
         Iterator& operator++() {
             mPtr++;
             return *this;
         }
+
         Iterator operator++(int) {
             Iterator tmp = *this;
             ++(*this);
             return tmp;
         }
+
+        Iterator& operator--() {
+            mPtr--;
+            return *this;
+        }
+
+        Iterator operator--(int) {
+            Iterator tmp = *this;
+            --(*this);
+            return tmp;
+        }
+
+        Iterator& operator+=(int offset) {
+            mPtr += offset;
+            return *this;
+        }
+
+        Iterator& operator-=(int offset) {
+            mPtr -= offset;
+            return *this;
+        }
+
+        friend auto operator<=>(Iterator, Iterator) = default;
+
+        difference_type operator+(Iterator& other) const {
+            return mPtr + other.mPtr;
+        }
+
+        Iterator operator+(difference_type other) const {
+            return mPtr + other;
+        }
+
+        friend Iterator operator+(const difference_type value, const Iterator& other) {
+            return other + value;
+        }
+
+        difference_type operator-(const Iterator& other) const {
+            return mPtr - other.mPtr;
+        }
+
+        Iterator operator-(const difference_type other) const {
+            return mPtr - other;
+        }
+
+        friend Iterator operator-(const difference_type value, const Iterator& other) {
+            return other - value;
+        }
+
         friend bool operator==(const Iterator& a, const Iterator& b) {
             return a.mPtr == b.mPtr;
         }
@@ -149,3 +210,5 @@ template <typename T> class Vector {
     }
 };
 } // namespace Unstd
+
+static_assert(std::contiguous_iterator<Unstd::Vector<int>::Iterator>);
