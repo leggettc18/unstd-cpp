@@ -1,6 +1,24 @@
 #include <stddef.h>
 #include <iterator>
+#include "Iterator.hpp"
+
 namespace Unstd {
+template <class Array> class ArrayIterator : public BaseIterator<Array> {
+    using iterator_category = std::forward_iterator_tag;
+
+  public:
+    ArrayIterator& operator++() {
+        this->mPtr++;
+        return *this;
+    }
+
+    ArrayIterator operator++(int) {
+        ArrayIterator tmp = *this;
+        ++(*this);
+        return tmp;
+    }
+};
+
 template <class T, size_t S> class Array {
   private:
     T mData[S];
@@ -17,50 +35,16 @@ template <class T, size_t S> class Array {
         return mData[index];
     }
 
-    struct Iterator {
-        using iterator_category = std::forward_iterator_tag;
-        using difference_type = std::ptrdiff_t;
-        using value_type = T;
-        using pointer = T*;
-        using reference = T&;
-        Iterator(pointer ptr) : mPtr(ptr) {
-        }
-        reference operator*() const {
-            return *mPtr;
-        }
-        pointer operator->() {
-            return mPtr;
-        }
-        Iterator& operator++() {
-            mPtr++;
-            return *this;
-        }
-        Iterator operator++(int) {
-            Iterator tmp = *this;
-            ++(*this);
-            return tmp;
-        }
-        friend bool operator==(const Iterator& a, const Iterator& b) {
-            return a.mPtr == b.mPtr;
-        };
-        friend bool operator!=(const Iterator& a, const Iterator& b) {
-            return a.mPtr != b.mPtr;
-        };
-
-      private:
-        pointer mPtr;
-    };
-
     // Omitting these from Linting since they are required
     // as is for this class to function with iterators.
 
     // NOLINTNEXTLINE
-    Iterator begin() {
-        return Iterator(&mData[0]);
+    ArrayIterator<T> begin() {
+        return ArrayIterator<T>(&mData[0]);
     }
     // NOLINTNEXTLINE
-    Iterator end() {
-        return Iterator(&mData[this->Size()]);
+    ArrayIterator<T> end() {
+        return ArrayIterator<T>(&mData[this->Size()]);
     }
 };
 } // namespace Unstd
