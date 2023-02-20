@@ -4,12 +4,12 @@
 
 namespace Unstd {
 template <class T> class BaseIterator {
+  protected:
     using difference_type = std::ptrdiff_t;
     using value_type = T;
     using pointer = T*;
     using reference = T&;
 
-  protected:
     T* mPtr;
 
   public:

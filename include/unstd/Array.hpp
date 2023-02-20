@@ -5,6 +5,7 @@
 namespace Unstd {
 template <class Array> class ArrayIterator : public BaseIterator<Array> {
     using iterator_category = std::forward_iterator_tag;
+    using BaseIterator<Array>::BaseIterator;
 
   public:
     ArrayIterator& operator++() {

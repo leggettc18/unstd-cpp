@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bits/iterator_concepts.h>
 #include <stddef.h>
 #include <utility>
 #include <iterator>
@@ -81,6 +80,7 @@ template <typename T> class Vector {
         using value_type = T;
         using pointer = T*;
         using reference = T&;
+        using element_type = T;
 
         Iterator() : mPtr(nullptr) {
         }
